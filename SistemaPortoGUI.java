@@ -3,6 +3,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+// classe principal com a interface grafica swing
 public class SistemaPortoGUI extends JFrame {
     private PortoService service;
     private JTabbedPane tabbedPane;
@@ -23,7 +24,6 @@ public class SistemaPortoGUI extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
 
-        // abas
         tabbedPane = new JTabbedPane();
         tabbedPane.addTab("cadastrar navio", criarPainelCadastroNavio());
         tabbedPane.addTab("cadastrar carga", criarPainelCadastroCarga());
@@ -36,7 +36,6 @@ public class SistemaPortoGUI extends JFrame {
         setVisible(true);
     }
 
-    // painel para cadastro de navio
     private JPanel criarPainelCadastroNavio() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -75,7 +74,7 @@ public class SistemaPortoGUI extends JFrame {
                     lblMensagem.setText("navio cadastrado com sucesso!");
                     txtIdNavio.setText("");
                     txtNomeNavio.setText("");
-                    atualizarTabela(); // atualiza lista se estiver visivel
+                    atualizarTabela();
                 } else {
                     lblMensagem.setText("id ja existente. tente outro.");
                 }
@@ -87,7 +86,6 @@ public class SistemaPortoGUI extends JFrame {
         return panel;
     }
 
-    // painel para cadastro de carga
     private JPanel criarPainelCadastroCarga() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -154,7 +152,6 @@ public class SistemaPortoGUI extends JFrame {
         return panel;
     }
 
-    // painel para listar navios
     private JPanel criarPainelListarNavios() {
         JPanel panel = new JPanel(new BorderLayout());
         tableModel = new DefaultTableModel(new String[]{"id", "nome", "status"}, 0);
@@ -166,11 +163,10 @@ public class SistemaPortoGUI extends JFrame {
         panel.add(btnAtualizar, BorderLayout.SOUTH);
         btnAtualizar.addActionListener(e -> atualizarTabela());
 
-        atualizarTabela(); // carrega inicial
+        atualizarTabela();
         return panel;
     }
 
-    // painel para pesquisa
     private JPanel criarPainelPesquisar() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel top = new JPanel(new FlowLayout());
@@ -192,7 +188,6 @@ public class SistemaPortoGUI extends JFrame {
                 areaResultado.setText("digite um termo para pesquisa.");
                 return;
             }
-            // tenta como id
             try {
                 int id = Integer.parseInt(termo);
                 Navio navio = service.buscarNavioPorId(id);
@@ -202,7 +197,6 @@ public class SistemaPortoGUI extends JFrame {
                     areaResultado.setText("nenhum navio com id " + id);
                 }
             } catch (NumberFormatException ex) {
-                // busca por nome
                 List<Navio> resultados = service.buscarNaviosPorNome(termo);
                 if (resultados.isEmpty()) {
                     areaResultado.setText("nenhum navio encontrado com o nome \"" + termo + "\"");
@@ -219,7 +213,6 @@ public class SistemaPortoGUI extends JFrame {
         return panel;
     }
 
-    // painel para alterar status
     private JPanel criarPainelAlterarStatus() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -271,7 +264,6 @@ public class SistemaPortoGUI extends JFrame {
         return panel;
     }
 
-    // painel para exibir detalhes de um navio
     private JPanel criarPainelDetalhes() {
         JPanel panel = new JPanel(new BorderLayout());
         JPanel top = new JPanel(new FlowLayout());
@@ -300,7 +292,6 @@ public class SistemaPortoGUI extends JFrame {
         return panel;
     }
 
-    // atualiza a tabela na aba de listagem
     private void atualizarTabela() {
         if (tableModel != null) {
             tableModel.setRowCount(0);
@@ -310,7 +301,6 @@ public class SistemaPortoGUI extends JFrame {
         }
     }
 
-    // metodo principal
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new SistemaPortoGUI());
     }

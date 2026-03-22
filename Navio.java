@@ -27,7 +27,6 @@ public class Navio {
     }
 
     public void setStatus(String status) {
-        // validacao simples
         if (status.equals("em espera") || status.equals("atracado") || status.equals("carregado")) {
             this.status = status;
         }
@@ -37,12 +36,10 @@ public class Navio {
         return cargas;
     }
 
-    // adiciona uma carga
     public void adicionarCarga(Carga carga) {
         cargas.add(carga);
     }
 
-    // calcula peso total
     public double calcularPesoTotal() {
         double total = 0;
         for (Carga c : cargas) {
