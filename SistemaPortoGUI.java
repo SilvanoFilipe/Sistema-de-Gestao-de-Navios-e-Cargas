@@ -15,7 +15,7 @@ public class SistemaPortoGUI extends JFrame {
     private JTable tableNavios;
     private DefaultTableModel tableModel;
     private JTextArea txtDetalhes;
-    private JTextField txtAlterarId, txtAlterarStatus;
+    private JTextField txtAlterarId;   // apenas o campo id; status via combobox
 
     public SistemaPortoGUI() {
         service = new PortoService();
@@ -226,10 +226,12 @@ public class SistemaPortoGUI extends JFrame {
 
         gbc.gridx = 0; gbc.gridy = 1;
         panel.add(new JLabel("novo status:"), gbc);
-        txtAlterarStatus = new JTextField(15);
+
+        // combobox com os status permitidos
+        String[] statusOptions = {"em espera", "atracado", "carregado"};
+        JComboBox<String> cbStatus = new JComboBox<>(statusOptions);
         gbc.gridx = 1;
-        panel.add(txtAlterarStatus, gbc);
-        panel.add(new JLabel("(em espera, atracado, carregado)"), gbc);
+        panel.add(cbStatus, gbc);
 
         JButton btnAlterar = new JButton("alterar status");
         gbc.gridx = 0; gbc.gridy = 2;
@@ -243,15 +245,11 @@ public class SistemaPortoGUI extends JFrame {
         btnAlterar.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(txtAlterarId.getText().trim());
-                String novoStatus = txtAlterarStatus.getText().trim();
-                if (novoStatus.isEmpty()) {
-                    lblMensagem.setText("informe o novo status.");
-                    return;
-                }
+                String novoStatus = (String) cbStatus.getSelectedItem();
                 if (service.alterarStatus(id, novoStatus)) {
                     lblMensagem.setText("status alterado com sucesso!");
                     txtAlterarId.setText("");
-                    txtAlterarStatus.setText("");
+                    cbStatus.setSelectedIndex(0);
                     atualizarTabela();
                 } else {
                     lblMensagem.setText("navio nao encontrado.");
