@@ -17,5 +17,3 @@ CREATE TABLE IF NOT EXISTS carga (
     PRIMARY KEY (id, navio_id),
     FOREIGN KEY (navio_id) REFERENCES navio(id) ON DELETE CASCADE
 );
-
-select * From navio;
