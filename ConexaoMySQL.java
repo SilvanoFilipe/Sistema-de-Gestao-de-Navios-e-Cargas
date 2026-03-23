@@ -7,7 +7,7 @@ public class ConexaoMySQL {
     // ajuste os dados conforme seu ambiente
     private static final String URL = "jdbc:mysql://localhost:3306/porto_db";
     private static final String USUARIO = "root";
-    private static final String SENHA = "Silvano06!";
+    private static final String SENHA = "senha";
 
     public static Connection getConnection() throws SQLException {
         try {
